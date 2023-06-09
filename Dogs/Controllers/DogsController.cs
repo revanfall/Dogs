@@ -64,12 +64,16 @@ namespace Dogs.Controllers
         {
             try
             {
-                if ( dog.TailLength >= 0 && dog.Weight >= 0)
+                if (dog.TailLength >= 0 && dog.Weight >= 0)
                 {
                     _context.AddAsync(dog);
-                    await _context.SaveChangesAsync();
-                    _response.StatusCode = HttpStatusCode.OK;
-                    return Ok(_response);
+                    if (ModelState.IsValid)
+                    {
+                        await _context.SaveChangesAsync();
+                        _response.StatusCode = HttpStatusCode.OK;
+                        return Ok(_response);
+                    }
+
                 }
                 else
                 {
